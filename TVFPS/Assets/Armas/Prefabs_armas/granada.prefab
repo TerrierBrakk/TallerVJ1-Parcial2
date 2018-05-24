@@ -59,7 +59,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 3ee7f3183ff9d9a42bc3150933fde872, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -114,8 +114,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   delay: 3
   damage: 100
-  radius: 50
-  explosionForce: 504.55
+  radius: 9.94
+  explosionForce: 601.3
   explosioneffect: {fileID: 100010, guid: 031d08f52af1daa4f929b85221519426, type: 2}
 --- !u!135 &135760853760968258
 SphereCollider:

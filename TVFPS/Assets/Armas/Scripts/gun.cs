@@ -5,9 +5,11 @@ public class gun : MonoBehaviour {
 
     public float damage = 10f;
     public float range = 100f;
+    public float fireRate = 15f;
     public ParticleSystem particles;
     public GameObject ImpactEffect;
     public float ImpactForce = 200f;
+    private float nextTimetoFire = 0F;
 
     public int maxAmmo = 10;
     private int currentAmmo;
@@ -18,28 +20,46 @@ public class gun : MonoBehaviour {
 
     public Camera fpsCam;
 
+    public Animator animator;
+
     void Start()
     {
         currentAmmo = maxAmmo;
     }
 
-	// Update is called once per frame
-	void Update () {
-       
-        if(IsReloading)
+    void OnEnable()
+    {
+        IsReloading = false;
+        animator.SetBool("Reloading", false);
+        animator.SetBool("Shooting", false);
+
+
+    }
+
+    // Update is called once per frame
+    void Update () {
+        animator.SetBool("Shooting", false);
+
+        if (IsReloading)
         {
             return;
         }
         if(currentAmmo <= 0)
         {
             StartCoroutine(Reload());
-            Reload();
             return;
         }
 
-        if(Input.GetButtonDown("Fire1"))
+        if (Input.GetButton("Fire1") && Time.time >= nextTimetoFire)
         {
+            nextTimetoFire = Time.time + 1f / fireRate;
             Shoot();
+        }
+
+        if(Input.GetKeyDown(KeyCode.R) && currentAmmo != maxAmmo)
+        {
+            StartCoroutine(Reload());
+            return;
         }
 		
 	}
@@ -49,7 +69,14 @@ public class gun : MonoBehaviour {
         IsReloading = true;
         Debug.Log("Reloading...");
 
-        yield return new WaitForSeconds(reloadTime);
+        animator.SetBool("Reloading", true);
+
+        yield return new WaitForSeconds(reloadTime -.25f);
+
+        animator.SetBool("Reloading", false);
+
+        yield return new WaitForSeconds(.25f);
+
         currentAmmo = maxAmmo;
         IsReloading = false;
     }
@@ -59,7 +86,8 @@ public class gun : MonoBehaviour {
     {
         particles.Play();
         RaycastHit hit;
-       if ( Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
+        animator.SetBool("Shooting", true);
+        if ( Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
             Debug.Log(hit.transform.name);
 
@@ -75,5 +103,6 @@ public class gun : MonoBehaviour {
            GameObject Flare= Instantiate(ImpactEffect, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(Flare, 1f);
         }
+        currentAmmo--;
     }
 }
