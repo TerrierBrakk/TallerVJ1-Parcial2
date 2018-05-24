@@ -1,4 +1,4 @@
-﻿
+﻿using System.Collections;
 using UnityEngine;
 
 public class gun : MonoBehaviour {
@@ -9,11 +9,33 @@ public class gun : MonoBehaviour {
     public GameObject ImpactEffect;
     public float ImpactForce = 200f;
 
+    public int maxAmmo = 10;
+    private int currentAmmo;
+    public float reloadTime = 1f;
+
+    private bool IsReloading = false;
+
+
     public Camera fpsCam;
+
+    void Start()
+    {
+        currentAmmo = maxAmmo;
+    }
 
 	// Update is called once per frame
 	void Update () {
        
+        if(IsReloading)
+        {
+            return;
+        }
+        if(currentAmmo <= 0)
+        {
+            StartCoroutine(Reload());
+            Reload();
+            return;
+        }
 
         if(Input.GetButtonDown("Fire1"))
         {
@@ -21,6 +43,18 @@ public class gun : MonoBehaviour {
         }
 		
 	}
+
+    IEnumerator Reload()
+    {
+        IsReloading = true;
+        Debug.Log("Reloading...");
+
+        yield return new WaitForSeconds(reloadTime);
+        currentAmmo = maxAmmo;
+        IsReloading = false;
+    }
+
+
     void Shoot()
     {
         particles.Play();
