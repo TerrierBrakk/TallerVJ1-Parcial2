@@ -17,5 +17,6 @@ public class EnemyMov : MonoBehaviour {
 	void Update () {
 		UnityEngine.AI.NavMeshAgent agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		agent.destination = objetivo.position;
+
 	}
 }
