@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class gun : MonoBehaviour {
 
@@ -10,6 +12,9 @@ public class gun : MonoBehaviour {
     public GameObject ImpactEffect;
     public float ImpactForce = 200f;
     private float nextTimetoFire = 0F;
+
+	public Text UImunicion;
+	public Text balastotal;
 
     public int maxAmmo = 10;
     private int currentAmmo;
@@ -61,6 +66,8 @@ public class gun : MonoBehaviour {
             StartCoroutine(Reload());
             return;
         }
+		UImunicion.text = currentAmmo.ToString ();
+		balastotal.text = currentAmmo.ToString ();
 		
 	}
 

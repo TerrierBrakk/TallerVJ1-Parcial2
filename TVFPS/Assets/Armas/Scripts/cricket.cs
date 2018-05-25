@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class cricket : MonoBehaviour {
 
@@ -9,8 +10,15 @@ public class cricket : MonoBehaviour {
     public float damage;
     public float fireRate = 15f;
     private float nextTimetoFire = 0F;
-    private bool isAtacking;
+	private bool isAtacking;
+	private int currentAmmo;
+	public int maxAmmo = 00;
 
+	public Text UImunicion;
+	void Start()
+	{
+		currentAmmo = maxAmmo;
+	}
     void OnEnable()
     {
         isAtacking = false;
@@ -27,6 +35,9 @@ public class cricket : MonoBehaviour {
             
             StartCoroutine(Shoot());
         }
+
+		UImunicion.text = currentAmmo.ToString ();
+
 
     }
     IEnumerator Shoot()

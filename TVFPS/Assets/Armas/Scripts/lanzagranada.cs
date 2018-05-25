@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class lanzagranada : MonoBehaviour {
 
@@ -18,6 +19,8 @@ public class lanzagranada : MonoBehaviour {
     private bool IsReloading = false;
     public Animator animator;
 
+	public Text UImunicion;
+	public Text balastotal;
 
     void Start()
     {
@@ -58,7 +61,8 @@ public class lanzagranada : MonoBehaviour {
             StartCoroutine(Reload());
             return;
         }
-
+		UImunicion.text = currentAmmo.ToString ();
+		balastotal.text = currentAmmo.ToString ();
     }
 
     void ThrowGrenade()
